@@ -4,6 +4,7 @@ Gem::Specification.new do |spec|
   spec.version       = '0.1.0'
   spec.authors       = ['Tim Heckman']
   spec.email         = ['ops+pd_sync@pagerduty.com']
+  spec.licenses      = ['Apache 2.0']
 
   spec.summary       = 'A knife plugin to support the PagerDuty Chef workflow'
   spec.description   = 'A knife plugin to support the PagerDuty Chef workflow'
@@ -12,12 +13,12 @@ Gem::Specification.new do |spec|
   spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
   spec.require_paths = ['lib']
 
-  spec.add_runtime_dependency 'chef'
-  spec.add_runtime_dependency 'berkshelf'
-  spec.add_runtime_dependency 'json'
+  spec.add_runtime_dependency 'chef', '~> 12'
+  spec.add_runtime_dependency 'berkshelf', '~> 0'
+  spec.add_runtime_dependency 'json', '~> 0'
 
-  spec.add_development_dependency 'bundler'
-  spec.add_development_dependency 'pry'
-  spec.add_development_dependency 'rake'
-  spec.add_development_dependency 'rspec'
+  spec.add_development_dependency 'bundler', '~> 0'
+  spec.add_development_dependency 'pry', '~> 0'
+  spec.add_development_dependency 'rake', '~> 0'
+  spec.add_development_dependency 'rspec', '~> 0'
 end
