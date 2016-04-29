@@ -4,7 +4,7 @@ This gem provides a Knife plugin (`knife pd sync`) which supports the PagerDuty 
 
 ## PagerDuty Chef Workflow
 
-PagerDuty uses a monolithic Chef repo, and does not bother with cookbook versioning. Instead, every time we make a change to our Chef repo, we delete all changed cookbooks and re-upload them, maintaining parity between our Git repo and Chef server. There are many reasons that we have adopted this workflow, though I'm too lazy to stroll through memory lane at the moment.
+PagerDuty uses a monolithic Chef repo, and does not bother with cookbook versioning. Instead, every time we make a change to our Chef repo, we delete all changed cookbooks and re-upload them, maintaining parity between our Git repo and Chef server. There are many reasons that we have adopted this workflow, though I'm too lazy to stroll through memory lane at the moment. You can learn more about it [here][1].
 
 This plugin supports the aforementioned workflow. It integrates directly with Berkshelf. Invoking this plugin will:
 * Run berks vendor
@@ -38,3 +38,5 @@ knife pd sync
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create a new Pull Request
+
+[1]: https://www.pagerduty.com/blog/chef-at-pagerduty/
