@@ -15,6 +15,13 @@ This plugin supports the aforementioned workflow. It integrates directly with Be
 * Upload all environments
 * Upload all roles
 
+## Installation
+
+Simply include this gem in the Gemfile in your Chef repo:
+```
+gem 'pagerduty-pd_sync'
+```
+
 ## Usage
 
 ```
