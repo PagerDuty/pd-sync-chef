@@ -61,18 +61,15 @@ module PagerDuty
         if remote_cookbooks.empty?
           upload_all_cookbooks
         else
-          unless new_cookbooks.empty?
-            upload_cookbooks(new_cookbooks)
-            altered_cookbooks[:added] = new_cookbooks
-          end
-          stale_cookbooks.each do |cb|
-            delete_cookbook(cb)
-            altered_cookbooks[:deleted] << cb
-          end
-          updated_cookbooks.each do |cb|
-            replace_cookbook(cb)
-            altered_cookbooks[:updated] << cb
-          end
+          cookbooks_to_delete = stale_cookbooks + updated_cookbooks
+          cookbooks_to_upload = new_cookbooks + updated_cookbooks
+
+          delete_cookbooks(cookbooks_to_delete) unless cookbooks_to_delete.empty?
+          upload_cookbooks(cookbooks_to_upload) unless cookbooks_to_upload.empty?
+
+          altered_cookbooks[:added] = new_cookbooks
+          altered_cookbooks[:deleted] = stale_cookbooks
+          altered_cookbooks[:updated] = updated_cookbooks
         end
       end
 
@@ -193,13 +190,6 @@ module PagerDuty
       def updated_cookbooks
         (local_cookbooks & remote_cookbooks).select do |cb|
           different_cookbook?(cb)
-        end
-      end
-
-      def replace_cookbook(cb)
-        converge_by "Replace cookbook #{cb}" do
-          delete_cookbook(cb)
-          upload_cookbook(cb)
         end
       end
     end

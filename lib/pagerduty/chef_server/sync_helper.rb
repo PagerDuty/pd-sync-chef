@@ -79,15 +79,6 @@ module PagerDuty
         end
       end
 
-      def upload_cookbook(cb)
-        converge_by "Upload cookbook #{cb}" do
-          knife(Chef::Knife::CookbookUpload, cb) do |config|
-            config[:cookbook_path] = cookbook_dir
-            config[:depends] = false
-          end
-        end
-      end
-
       def upload_cookbooks(cbcb)
         sorted_cookbooks = cbcb.sort # definite order + nice printout for why_run
         converge_by "Upload cookbooks #{sorted_cookbooks.join(', ')}" do
@@ -98,11 +89,14 @@ module PagerDuty
         end
       end
 
-      def delete_cookbook(cb)
-        converge_by "Delete cookbook #{cb}" do
-          knife Chef::Knife::CookbookDelete, cb do |config|
-            config[:yes] = true
-            config[:all] = true
+      def delete_cookbooks(cbcb)
+        sorted_cookbooks = cbcb.sort
+        converge_by "Delete cookbooks #{sorted_cookbooks.join(', ')}" do
+          sorted_cookbooks.each do |c|
+            knife Chef::Knife::CookbookDelete, c do |config|
+              config[:yes] = true
+              config[:all] = true
+            end
           end
         end
       end
