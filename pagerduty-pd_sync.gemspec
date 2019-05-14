@@ -1,7 +1,7 @@
 # coding: utf-8
 Gem::Specification.new do |spec|
   spec.name          = 'pagerduty-pd_sync'
-  spec.version       = '0.2.0'
+  spec.version       = '0.3.0'
   spec.authors       = ['Tim Heckman']
   spec.email         = ['ops+pd_sync@pagerduty.com']
   spec.licenses      = ['Apache 2.0']

@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    pagerduty-pd_sync (0.2.0)
+    pagerduty-pd_sync (0.3.0)
       berkshelf (~> 5)
       chef (~> 14.12.3)
       json (~> 1)
@@ -108,7 +108,7 @@ GEM
     mixlib-archive (0.4.20)
       mixlib-log
     mixlib-authentication (2.1.1)
-    mixlib-cli (2.0.3)
+    mixlib-cli (2.0.6)
     mixlib-config (3.0.1)
       tomlrb
     mixlib-log (3.0.1)
