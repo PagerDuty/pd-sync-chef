@@ -102,7 +102,7 @@ class Chef
           update_commit
         rescue StandardError => e
           ui.error(e.message)
-          ui.error(e.backtrace)
+          ui.error("\n\t" + e.backtrace.join("\n\t"))
           raise e
         ensure
           converge_by 'release lock' do
