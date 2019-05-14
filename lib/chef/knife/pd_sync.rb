@@ -101,8 +101,9 @@ class Chef
           @altered_cookbooks = sync.run
           update_commit
         rescue StandardError => e
-          ui.warn(e.message)
-          ui.warn(e.backtrace)
+          ui.error(e.message)
+          ui.error(e.backtrace)
+          raise e
         ensure
           converge_by 'release lock' do
             lock.unlock
