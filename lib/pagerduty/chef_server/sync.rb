@@ -109,16 +109,15 @@ module PagerDuty
           remote_cookbooks.each do |cb|
             c[cb] = {}
             cbm = Chef::CookbookVersion.load(cb).manifest
-            cookbook_segments.each do |m|
-              cbm_sort = cbm[m].sort { |x, y| x['name'] <=> y['name'] }
-              cbm_sort = cbm_sort.sort { |x, y| x['checksum'] <=> y['checksum'] }
-              cbm_sort.each do |file|
-                file.delete(:url)
-                file.delete(:path)
-                file.delete(:specificity)
-              end
-              c[cb][m] = cbm_sort
+            cbm_sort = cbm[:all_files].sort { |x, y| x['name'] <=> y['name'] }
+            cbm_sort = cbm_sort.sort { |x, y| x['checksum'] <=> y['checksum'] }
+            cbm_sort.each do |file|
+              file.delete(:url)
+              file.delete(:path)
+              file.delete(:full_path)
+              file.delete(:specificity)
             end
+            c[cb][:all_files] = cbm_sort
           end
           c
         end
@@ -130,25 +129,23 @@ module PagerDuty
           cbl = Chef::CookbookLoader.new(Array(cookbook_dir))
           cbl.load_cookbooks
           cbl_sort = cbl.values.map(&:name).map(&:to_s).sort
-
           cbl_sort.each do |cb|
             print "#{cb} => "
             c[cb] = {}
-            cookbook_segments.each do |m|
-              cbm_sort = cbl[cb].manifest[m].sort { |x, y| x['name'] <=> y['name'] }
-              cbm_sort = cbm_sort.sort { |x, y| x['checksum'] <=> y['checksum'] }
-              cbm_sort.each do |file|
-                file.delete(:path)
-                file.delete(:specificity)
-              end
-              c[cb][m] = cbm_sort
+            cbm_sort = cbl[cb].manifest[:all_files].sort { |x, y| x['name'] <=> y['name'] }
+            cbm_sort = cbm_sort.sort { |x, y| x['checksum'] <=> y['checksum'] }
+            cbm_sort.each do |file|
+              file.delete(:full_path)
+              file.delete(:path)
+              file.delete(:specificity)
             end
+            c[cb][:all_files] = cbm_sort
             diff = diff(c[cb], remote_checksums[cb])
             if diff.empty?
               ui.info(ui.color( 'match', :green))
             else
               ui.info(ui.color( 'mismatch', :yellow))
-              ui.output(diff(c[cb], remote_checksums[cb]))
+              ui.output(diff)
             end
             sleep 0.1 # was printing too fast to be useful :(
           end
@@ -168,7 +165,7 @@ module PagerDuty
             f1 = Array(mf1[segment]).detect{|f|f['name'] == file} || {}
             f2 = Array(mf2[segment]).detect{|f|f['name'] == file} || {}
             unless f1['checksum'] == f2['checksum']
-              diffs[segment] << file #unless file =~ /metadata\.(rb|json)/
+              diffs[segment] << file
             end
           end
         end
