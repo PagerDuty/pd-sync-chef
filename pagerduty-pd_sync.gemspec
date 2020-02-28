@@ -19,6 +19,6 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'berkshelf', '~> 5'
   spec.add_runtime_dependency 'json', '~> 1'
 
-  spec.add_development_dependency 'rake', '~> 11'
+  spec.add_development_dependency 'rake', '~> 12'
   spec.add_development_dependency 'rspec', '~> 3'
 end
