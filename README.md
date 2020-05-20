@@ -1,3 +1,7 @@
+# Deprecated
+
+This repository is no longer maintained.
+
 # PagerDuty::ChefServer::Sync
 
 This gem provides a Knife plugin (`knife pd sync`) which supports the PagerDuty Chef workflow.
